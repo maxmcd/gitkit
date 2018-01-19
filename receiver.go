@@ -55,7 +55,11 @@ func (r *Receiver) Handle(reader io.Reader) error {
 		return fmt.Errorf("cant push to non-master branch")
 	}
 
-	tmpDir := path.Join(r.TmpDir, uuid.NewV4().String())
+	uuid, err := uuid.NewV4()
+	if err != nil {
+		return err
+	}
+	tmpDir := path.Join(r.TmpDir, uuid.String())
 	if err := os.MkdirAll(tmpDir, 0774); err != nil {
 		return err
 	}
